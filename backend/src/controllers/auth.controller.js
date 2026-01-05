@@ -118,14 +118,13 @@ export async function onboard(req, res) {
 
     const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
 
-    if (!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
+    if (!fullName || !bio || !nativeLanguage  || !location) {
       return res.status(400).json({
         message: "All fields are required",
         missingFields: [
           !fullName && "fullName",
           !bio && "bio",
           !nativeLanguage && "nativeLanguage",
-          !learningLanguage && "learningLanguage",
           !location && "location",
         ].filter(Boolean),
       });

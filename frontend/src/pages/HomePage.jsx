@@ -59,9 +59,7 @@ const HomePage = () => {
   useEffect(() => {
     const ids = new Set();
     outgoingFriendReqs.forEach((req) => {
-      if (req?.recipient?._id) {
-        ids.add(req.recipient._id);
-      }
+      if (req?.recipient?._id) ids.add(req.recipient._id);
     });
     setOutgoingRequestsIds(ids);
   }, [outgoingFriendReqs]);
@@ -74,7 +72,7 @@ const HomePage = () => {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto space-y-10">
 
-        {/* ================= Friends ================= */}
+        {/* Friends */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="text-2xl sm:text-3xl font-bold">Your Friends</h2>
           <Link to="/notifications" className="btn btn-outline btn-sm">
@@ -97,12 +95,12 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* ================= Recommended Users ================= */}
+        {/* Recommended Users */}
         <section>
           <div className="mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold">Meet New Learners</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold">Meet New Friends</h2>
             <p className="opacity-70">
-              Discover language exchange partners based on your profile
+              Discover new friends based on your profile
             </p>
           </div>
 
@@ -115,15 +113,12 @@ const HomePage = () => {
               <h3 className="font-semibold text-lg">
                 No recommendations available
               </h3>
-              <p className="opacity-70">
-                Check back later for new partners
-              </p>
+              <p className="opacity-70">Check back later</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedUsers.map((user) => {
                 if (!user?._id) return null;
-
                 const hasSent = outgoingRequestsIds.has(user._id);
 
                 return (
@@ -132,19 +127,17 @@ const HomePage = () => {
                     className="card bg-base-200 hover:shadow-lg transition-all"
                   >
                     <div className="card-body space-y-4">
-
-                      {/* Profile */}
                       <div className="flex items-center gap-3">
                         <div className="avatar size-16 rounded-full">
                           <img
                             src={user.profilePic || "/avatar.png"}
-                            alt={user.fullName || "User"}
+                            alt={user.fullName}
                           />
                         </div>
 
                         <div>
                           <h3 className="font-semibold text-lg">
-                            {user.fullName || "Unknown User"}
+                            {user.fullName}
                           </h3>
                           {user.location && (
                             <div className="flex items-center text-xs opacity-70">
@@ -155,23 +148,15 @@ const HomePage = () => {
                         </div>
                       </div>
 
-                      {/* Languages */}
-                      <div className="flex flex-wrap gap-2">
-                        <span className="badge badge-secondary">
-                          {getLanguageFlag(user.nativeLanguage)}
-                          Native: {capitialize(user.nativeLanguage)}
-                        </span>
-                        <span className="badge badge-outline">
-                          {getLanguageFlag(user.learningLanguage)}
-                          Learning: {capitialize(user.learningLanguage)}
-                        </span>
-                      </div>
+                      <span className="badge badge-secondary">
+                        {getLanguageFlag(user.nativeLanguage)}
+                        Native: {capitialize(user.nativeLanguage)}
+                      </span>
 
                       {user.bio && (
                         <p className="text-sm opacity-70">{user.bio}</p>
                       )}
 
-                      {/* Action */}
                       <button
                         className={`btn w-full ${
                           hasSent ? "btn-disabled" : "btn-primary"
@@ -191,7 +176,6 @@ const HomePage = () => {
                           </>
                         )}
                       </button>
-
                     </div>
                   </div>
                 );
