@@ -23,6 +23,9 @@ app.use(
   })
 );
 
+await connectDb();
+
+
 app.use("/api/auth",authRoutes);
 app.use("/api/users", userRouter)
 app.use("/api/chat", chatRouter)
