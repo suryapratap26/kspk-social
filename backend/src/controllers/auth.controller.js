@@ -21,12 +21,13 @@ if(!user){
       expiresIn: "7d",
     });
 
-  res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, // prevent XSS attacks,
-      sameSite: "strict", // prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
+res.cookie("jwt", token, {
+  httpOnly: true,
+  secure: true,        // 🔥 MUST be true on Vercel
+  sameSite: "none",    // 🔥 MUST be "none" for cross-site
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
 
     res.status(200).json({ success: true, user });
@@ -91,12 +92,12 @@ export const signUp=async(req,res)=>{
     });
 
 
- res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, // prevent XSS attacks,
-      sameSite: "strict", // prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
+res.cookie("jwt", token, {
+  httpOnly: true,
+  secure: true,        // 🔥 MUST be true on Vercel
+  sameSite: "none",    // 🔥 MUST be "none" for cross-site
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
     res.status(200).json({ success: true, newUser });
   } catch (error) {
@@ -116,7 +117,7 @@ export async function onboard(req, res) {
   try {
     const userId = req.user._id;
 
-    const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+    const { fullName, bio, nativeLanguage,  location } = req.body;
 
     if (!fullName || !bio || !nativeLanguage  || !location) {
       return res.status(400).json({
