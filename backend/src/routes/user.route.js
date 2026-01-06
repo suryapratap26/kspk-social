@@ -1,5 +1,6 @@
 import express from "express";
 import { protectRoute } from "../middleware/auth.middleware.js";
+import { connectDb } from "../config/db.js";
 import {
   acceptFriendRequest,
   getFriendRequests,
@@ -11,7 +12,10 @@ import {
 
 const router = express.Router();
 
-router.use(protectRoute);
+router.use(async (req, res, next) => {
+  await connectDb();   // 🔥 ENSURE DB FOR ALL USER ROUTES
+  protectRoute(req, res, next);
+});
 
 router.get("/", getRecommendedUsers);
 router.get("/friends", getMyFriends);
