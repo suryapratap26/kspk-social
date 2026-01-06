@@ -106,11 +106,15 @@ res.cookie("jwt", token, {
   }
 }
 
+export const logout = (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
 
-export const logout=(req,res)=>{
-    res.clearCookie("jwt");
-    return res.status(200).json({message:"success"})
-}
+  return res.status(200).json({ success: true });
+};
 
 
 export async function onboard(req, res) {
